@@ -1,58 +1,78 @@
 # JSONServer + JWT Auth
 
-A Fake REST API using json-server with JWT authentication. 
+Una falsa REST API usando json-server con JWT autenticación.
 
-Implemented End-points: login,register
+End-points implementados: test_users_login, users
 
-## Install
+## Instalación
 
 ```bash
 $ npm install
 $ npm run start-auth
 ```
 
-Might need to run
-```
-npm audit fix
-```
+## Cómo ir a test_users_login/
 
-## How to login/register?
-
-You can login/register by sending a POST request to
+Usted puede logearse enviando una solicitud POST:
 
 ```
-POST http://localhost:8000/auth/login
-POST http://localhost:8000/auth/register
-```
-with the following data 
+POST http://localhost:8000/test_users_login
+
+con los siguientes datos en el body
 
 ```
 {
-  "email": "nilson@email.com",
-  "password":"nilson"
+  "username": "admin",
+  "password":"admin"
 }
-```
 
-You should receive an access token with the following format 
+Usted deberá recibir un token de acceso con el siguiente formato
 
-```
 {
    "access_token": "<ACCESS_TOKEN>"
 }
 ```
 
+## Cómo ir a users/
 
-You should send this authorization with any request to the protected endpoints
+Usted puede ir a users usando el header Authorization: Bearer <ACCESS_TOKEN> para enviar una solicitud GET, POST o DELETE
 
 ```
+conseguir lista de usuarios:
+
+GET http://localhost:8000/users
+
+enviar el parámetro _page en la url si desea paginar la información (cada página contiene 10 items por defecto), no enviarlo recibirá toda la información completa, por ejemplo:
+
+GET http://localhost:8000/users?_page=1
+
+enviar en Headers:
 Authorization: Bearer <ACCESS_TOKEN>
+
 ```
+crear un usario nuevo:
 
-Check out these tutorials:
+POST http://localhost:8000/users
 
-- [Mocking a REST API Back-End for Your Angular App with JSON-Server and Faker.js](https://www.techiediaries.com/angular-mock-backend)
-- [Building a Fake and JWT Protected REST API with json-server](https://www.techiediaries.com/fake-api-jwt-json-server)
-- [Angular 9 Tutorial: Build an Example App with Angular CLI, Angular Router, HttpClient & Angular Material](https://www.shabang.dev/angular-tutorial-build-an-example-app-with-angular-cli-router-httpclient-and-angular-material/)
+enviar en Headers:
+Authorization: Bearer <ACCESS_TOKEN>
 
+enviar en el Body por ejemplo:
+{
+	"first_name": "Carlos",
+	"last_name": "Carlos",
+	"company": 1,
+	"email": "carlos@example.com"
+}
 
+```
+eliminar un usuario existente:
 
+DELETE http://localhost:8000/users/:id
+
+enviar en Headers:
+Authorization: Bearer <ACCESS_TOKEN>
+
+enviar el id del usuario en la url, por ejemplo:
+http://localhost:8000/users/1
+```
